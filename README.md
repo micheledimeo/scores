@@ -1,4 +1,4 @@
-# MusicXML Scores for Nextcloud
+# Scores for Nextcloud
 
 Display, play, and manage MusicXML files directly in Nextcloud using OpenSheetMusicDisplay.
 
