@@ -16,10 +16,9 @@ NC='\033[0m' # No Color
 
 # Configuration
 APP_NAME="mxmlscores"
-PROJECT_ROOT="/Users/Michele/Sites"
-LOCAL_DIR="${PROJECT_ROOT}/mxmlscores"
+LOCAL_DIR="/Users/Michele/Sites/mxmlscores"
 BUILD_DIR="${LOCAL_DIR}/build_package"
-DIST_DIR="${PROJECT_ROOT}/dist"
+DIST_DIR="${LOCAL_DIR}/project-files/dist"
 
 # Get version from info.xml (macOS compatible)
 VERSION=$(grep -o '<version>[^<]*</version>' "${LOCAL_DIR}/appinfo/info.xml" | sed 's/<[^>]*>//g' || echo "unknown")

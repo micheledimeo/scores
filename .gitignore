@@ -25,37 +25,20 @@ Thumbs.db
 # Nextcloud
 /vendor/
 
-# Test files (now in parent directory)
-testsprite.log
+# Project files directory (NOT ignored in utils branch - contains development files)
+# In main branch, this entire directory is gitignored
+# project-files/
 
 # Temporary files
 *.log
 *.tmp
 
-<<<<<<< Updated upstream
 # NOTE: This is the utils branch - utility scripts and docs ARE tracked here
-# In main branch, these files are gitignored
-=======
-# Utility scripts (not for distribution)
-package-app.sh
-update-repo-urls.sh
-deploy-and-test.sh
-backup.sh
-
-# Documentation files (except README.md)
-DEPLOY_CHECKLIST.md
-WORKFLOW.md
-GITHUB_SETUP.md
-INSTALL.md
+# In main branch, scripts/ and docs/ folders are gitignored
 
 # Code signing
 appinfo/signature.json
-sign-app.sh
 
-# Submission and certificate files (now in parent directory or utils branch)
+# Certificate files
 *.csr
 *.crt
-
-# Deployment script (now in repository but ignored for public)
-deploy-production.sh
->>>>>>> Stashed changes

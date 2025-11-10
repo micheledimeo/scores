@@ -32,7 +32,7 @@ All utilities are organized in dedicated folders:
 - **`scripts/package-app.sh`** - Create distributable tar.gz package
   ```bash
   ./scripts/package-app.sh
-  # Creates: /Users/Michele/Sites/dist/mxmlscores-[version].tar.gz
+  # Creates: project-files/dist/mxmlscores-[version].tar.gz
   ```
 
 - **`scripts/sign-app.sh`** - Sign app for Nextcloud App Store
