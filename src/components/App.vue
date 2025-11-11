@@ -47,7 +47,7 @@
 							@update:open="toggleFolder(folder.id)"
 							@click="toggleFolder(folder.id)">
 							<template #icon>
-								<Folder :size="20" />
+								<FolderIcon :size="20" />
 							</template>
 							<template #counter>
 								<NcCounterBubble :count="folder.files?.length || 0" />
@@ -126,26 +126,15 @@
 							<div class="license-info">
 								<h4>{{ t('scores', 'Credits & License') }}</h4>
 								<p class="license-credits">
-									{{ t('scores', 'This app uses OpenSheetMusicDisplay (OSMD)') }}
-									<br>
-									<small>Copyright © 2019 PhonicScore</small>
+									{{ t('scores', 'This app is licensed under') }}
+									<span class="license-link" @click="showLicenseModal = true">AGPL-3.0-or-later</span>
 								</p>
-								<details class="license-details">
-									<summary>{{ t('scores', 'BSD-3-Clause License') }}</summary>
-									<div class="license-text">
-										<p><strong>{{ t('scores', 'Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:') }}</strong></p>
-										<ol>
-											<li>{{ t('scores', 'Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.') }}</li>
-											<li>{{ t('scores', 'Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.') }}</li>
-											<li>{{ t('scores', 'Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.') }}</li>
-										</ol>
-										<p class="license-disclaimer">
-											<small>
-												{{ t('scores', 'THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.') }}
-											</small>
-										</p>
-									</div>
-								</details>
+								<p class="license-credits">
+									{{ t('scores', 'This app uses') }}
+									<a href="https://github.com/opensheetmusicdisplay/opensheetmusicdisplay" target="_blank" rel="noopener noreferrer" class="osmd-link">OpenSheetMusicDisplay (OSMD)</a>
+									<br>
+									<small>Copyright © 2019 PhonicScore - BSD-3-Clause License</small>
+								</p>
 							</div>
 						</div>
 					</template>
@@ -168,7 +157,7 @@
 									v-for="(path, index) in scoresFolderPaths"
 									:key="index"
 									class="folder-path-item">
-									<span class="icon-folder"></span>
+									<FolderIcon :size="16" />
 									<span class="folder-path-text">{{ path || '/' }}</span>
 									<NcButton
 										type="error"
@@ -180,31 +169,15 @@
 								</div>
 							</div>
 
-							<!-- Input nuovo percorso -->
+							<!-- Browse button to add new folders -->
 							<div class="folder-input-group">
-								<input
-									id="scores-folder"
-									v-model="newFolderPath"
-									type="text"
-									:placeholder="t('scores', 'e.g. Music/Scores or leave empty for root')"
-									class="folder-input"
-									readonly
-									@click="showFolderBrowser">
 								<NcButton
-									@click="showFolderBrowser">
+									@click="showFolderBrowser"
+									type="primary">
 									<template #icon>
-										<span class="icon-folder"></span>
+										<FolderIcon :size="20" />
 									</template>
-									{{ t('scores', 'Browse') }}
-								</NcButton>
-								<NcButton
-									type="primary"
-									:disabled="!canAddNewPath"
-									@click="addFolderPath">
-									<template #icon>
-										<span class="icon-add"></span>
-									</template>
-									{{ t('scores', 'Add') }}
+									{{ t('scores', 'Browse and Add Folder') }}
 								</NcButton>
 							</div>
 
@@ -230,13 +203,55 @@
 							</NcButton>
 							<NcButton
 								type="primary"
-								:disabled="savingSettings"
+								:disabled="savingSettings || !hasPathsChanged"
 								@click="saveScoresFolder">
 								<template #icon>
 									<NcLoadingIcon v-if="savingSettings" />
 									<span v-else class="icon-checkmark"></span>
 								</template>
 								{{ t('scores', 'Save') }}
+							</NcButton>
+						</div>
+					</div>
+				</NcModal>
+
+				<!-- License Modal -->
+				<NcModal v-if="showLicenseModal"
+					:name="t('scores', 'License Information')"
+					@close="showLicenseModal = false"
+					size="normal">
+					<div class="license-modal-content">
+						<div class="license-modal-header">
+							<h3>GNU Affero General Public License</h3>
+							<p class="license-version">Version 3.0 or later</p>
+						</div>
+
+						<div class="license-modal-body">
+							<div class="license-section">
+								<p>This program is free software: you can redistribute it and/or modify it under the terms of the <strong>GNU Affero General Public License</strong> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+							</div>
+
+							<div class="license-section">
+								<p>This program is distributed in the hope that it will be useful, but <strong>WITHOUT ANY WARRANTY</strong>; without even the implied warranty of <strong>MERCHANTABILITY</strong> or <strong>FITNESS FOR A PARTICULAR PURPOSE</strong>.</p>
+							</div>
+
+							<div class="license-section">
+								<p>See the GNU Affero General Public License for more details.</p>
+							</div>
+
+							<div class="license-link-section">
+								<a href="https://www.gnu.org/licenses/agpl-3.0.html"
+								   target="_blank"
+								   rel="noopener noreferrer"
+								   class="license-external-link">
+									{{ t('scores', 'Read full license text at gnu.org') }} ↗
+								</a>
+							</div>
+						</div>
+
+						<div class="license-modal-footer">
+							<NcButton type="primary" @click="showLicenseModal = false">
+								{{ t('scores', 'Close') }}
 							</NcButton>
 						</div>
 					</div>
@@ -268,7 +283,7 @@
 								{{ t('scores', 'Loading folders...') }}
 							</div>
 							<div v-else-if="browserFolders.length === 0" class="empty-folders">
-								<span class="icon-folder"></span>
+								<FolderIcon :size="48" />
 								<p>{{ t('scores', 'No folders found') }}</p>
 							</div>
 							<div
@@ -277,7 +292,7 @@
 								:key="folder.id"
 								class="browser-folder-item"
 								@dblclick="navigateToFolder(folder.path)">
-								<span class="icon-folder"></span>
+								<FolderIcon :size="20" />
 								<span class="folder-name-browser">{{ folder.name }}</span>
 								<NcButton type="tertiary" @click="selectFolder(folder.path)">
 									{{ t('scores', 'Select') }}
@@ -360,7 +375,7 @@ import {
 
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import Cog from 'vue-material-design-icons/Cog.vue'
-import Folder from 'vue-material-design-icons/Folder.vue'
+import FolderIcon from 'vue-material-design-icons/Folder.vue'
 
 import MusicViewer from './MusicViewer.vue'
 
@@ -380,7 +395,7 @@ export default {
 		NcTextField,
 		Magnify,
 		Cog,
-		Folder,
+		FolderIcon,
 	},
 	setup() {
 		const folderStructure = ref({ folders: [], files: [] })
@@ -395,12 +410,14 @@ export default {
 		const showWelcomeScreen = ref(false)
 		const isAdmin = ref(false)
 		const scoresFolderPaths = ref([]) // Array of folder paths
+		const originalScoresFolderPaths = ref([]) // Track original state for detecting changes
 		const newFolderPath = ref('') // Temporary path for adding new folders
 		const savingSettings = ref(false)
 		const settingsSaved = ref(false)
 		const settingsError = ref('')
 		const showSettingsModal = ref(false)
 		const showBrowserModal = ref(false)
+		const showLicenseModal = ref(false)
 		const browserFolders = ref([])
 		const currentBrowserPath = ref('')
 		const loadingFolders = ref(false)
@@ -556,9 +573,8 @@ export default {
 
 			if (isInFolder) {
 				// For files in folders, manually truncate from left if too long
-				// 284px width = approximately 36-39 characters total (including ...)
-				// Use 36 chars + 3 dots = 39 total to guarantee no right truncation
-				const maxLength = 36
+				// 30 chars + "..." = 33 total characters for full visibility on the right
+				const maxLength = 30
 				if (nameWithoutExt.length > maxLength) {
 					// Show the last maxLength characters (right part) with ellipsis at the start
 					return '...' + nameWithoutExt.slice(-maxLength)
@@ -617,11 +633,14 @@ export default {
 				const data = response.data
 				if (Array.isArray(data.folderPaths)) {
 					scoresFolderPaths.value = data.folderPaths
+					originalScoresFolderPaths.value = [...data.folderPaths] // Deep copy for comparison
 				} else if (data.folderPath) {
 					// Backward compatibility: convert single path to array
 					scoresFolderPaths.value = data.folderPath ? [data.folderPath] : []
+					originalScoresFolderPaths.value = data.folderPath ? [data.folderPath] : []
 				} else {
 					scoresFolderPaths.value = []
+					originalScoresFolderPaths.value = []
 				}
 			} catch (error) {
 				console.error('Failed to load scores folder setting:', error)
@@ -648,6 +667,17 @@ export default {
 				   !scoresFolderPaths.value.includes(newFolderPath.value)
 		})
 
+		const hasPathsChanged = computed(() => {
+			// Check if the current paths differ from the original ones
+			if (scoresFolderPaths.value.length !== originalScoresFolderPaths.value.length) {
+				return true
+			}
+			// Check if all paths are the same (order-independent comparison)
+			const currentSorted = [...scoresFolderPaths.value].sort()
+			const originalSorted = [...originalScoresFolderPaths.value].sort()
+			return !currentSorted.every((path, index) => path === originalSorted[index])
+		})
+
 		const addFolderPath = () => {
 			if (canAddNewPath.value) {
 				scoresFolderPaths.value.push(newFolderPath.value)
@@ -669,7 +699,9 @@ export default {
 					folderPaths: scoresFolderPaths.value
 				})
 				settingsSaved.value = true
-				// Reload files with new folder paths
+				// Update original paths to reflect saved state
+				originalScoresFolderPaths.value = [...scoresFolderPaths.value]
+				// Reload files with new folder paths to trigger full rescan
 				await loadFiles()
 				// Hide success message and close modal after 2 seconds
 				setTimeout(() => {
@@ -733,7 +765,12 @@ export default {
 		}
 
 		const confirmFolderSelection = () => {
-			newFolderPath.value = currentBrowserPath.value
+			const selectedPath = currentBrowserPath.value
+			// Add directly to the list if not already present
+			if (selectedPath !== null && !scoresFolderPaths.value.includes(selectedPath)) {
+				scoresFolderPaths.value.push(selectedPath)
+			}
+			newFolderPath.value = '' // Clear the temporary field
 			closeFolderBrowser()
 		}
 
@@ -769,11 +806,13 @@ export default {
 			scoresFolderPaths,
 			newFolderPath,
 			canAddNewPath,
+			hasPathsChanged,
 			savingSettings,
 			settingsSaved,
 			settingsError,
 			showSettingsModal,
 			showBrowserModal,
+			showLicenseModal,
 			browserFolders,
 			currentBrowserPath,
 			loadingFolders,
@@ -818,26 +857,49 @@ export default {
 	z-index: 1;
 }
 
-/* Search box wrapper - matches Files app width with padding */
+/* Search box wrapper - with right padding to leave space for counter */
 .search-box-wrapper {
 	position: relative;
 	width: 100%;
 	padding: 0 8px;
+	padding-right: 44px; /* Space for counter bubble */
 }
 
-/* Counter overlay - positioned at the right edge, aligned with folder counters */
+/* Reduce search input width to accommodate counter */
+.search-box-wrapper :deep(.input-field__input) {
+	padding-right: 8px !important;
+}
+
+/* Counter overlay - positioned outside search box, aligned with folder counters */
 .search-counter-overlay {
 	position: absolute;
-	right: 12px; /* Aligned with folder counter position */
+	right: 4px; /* Aligned with folder counter position */
 	top: 50%;
 	transform: translateY(-50%);
 	pointer-events: none;
 	z-index: 1;
 }
 
-/* When close button is shown, keep same position */
+/* When close button is shown, no adjustment needed as counter is outside */
 .search-box-wrapper:has(.app-navigation-search :deep(.input-field__clear-button)) .search-counter-overlay {
-	right: 12px; /* Keep aligned with folder counters */
+	right: 4px; /* Keep aligned with folder counters */
+}
+
+/* Folder icons - keep transparent (default Nextcloud style) */
+.folder-item .icon-folder {
+	/* No filter - use default icon appearance */
+}
+
+/* Align folder counters with search counter */
+.folder-item :deep(.app-navigation-entry__counter),
+.folder-item :deep(.counter-bubble__counter),
+.folder-item :deep(.counter-bubble),
+:deep(.app-navigation-entry__counter),
+:deep(.counter-bubble__counter),
+:deep(.counter-bubble) {
+	right: 0px !important;
+	margin-right: 0 !important;
+	position: absolute !important;
 }
 
 /* App navigation list */
@@ -999,7 +1061,7 @@ export default {
 }
 
 .quick-tips li {
-	padding: 6px 0;
+	padding: 0;
 	color: var(--color-text-maxcontrast);
 }
 
@@ -2161,21 +2223,28 @@ li.file-item .app-navigation-entry-link {
 	padding-left: 5px !important;
 }
 
-/* Remove right padding from files in folders - AGGRESSIVE targeting with wildcard */
+/* Align file names in folders with folder name (after folder icon) */
 li.file-in-folder,
+li.file-in-folder > a,
+li.file-in-folder .app-navigation-entry-link {
+	padding-left: 36px !important; /* Align with folder name (icon width + spacing) */
+	padding-right: 0 !important;
+	padding-inline-end: 0 !important;
+	padding-inline-start: 36px !important;
+	margin-right: 0 !important;
+	margin-inline-end: 0 !important;
+}
+
+/* Remove padding from nested elements to avoid double padding */
 li.file-in-folder *,
 li.file-in-folder > *,
-li.file-in-folder > a,
 li.file-in-folder > a *,
-li.file-in-folder .app-navigation-entry-link,
 li.file-in-folder .app-navigation-entry__name,
 li.file-in-folder .app-navigation-entry-link__name,
 li.file-in-folder a,
 li.file-in-folder span,
 li.file-in-folder div,
-li[class*="file-in-folder"],
 li[class*="file-in-folder"] *,
-li[class*="file-in-folder"] > a,
 li[class*="file-in-folder"] span {
 	padding-right: 0 !important;
 	padding-inline-end: 0 !important;
@@ -2190,8 +2259,8 @@ li[class*="file-in-folder"] span {
 ul.app-navigation-list > li.file-in-folder.app-navigation-entry:not(.app-navigation-entry--editing) .app-navigation-entry-link {
 	padding-inline-end: 0 !important;
 	padding-right: 0 !important;
-	padding-left: 0 !important;
-	padding-inline-start: 0 !important;
+	padding-left: 36px !important;
+	padding-inline-start: 36px !important;
 }
 
 /* Extra specific targeting for Nextcloud's component structure */
@@ -2209,4 +2278,120 @@ li.file-in-folder [class*="entry"] {
 
 /* REMOVED - was contradicting scoped RTL rules for truncation */
 /* Let the scoped :deep() rules handle text direction for truncation */
+
+/* License Modal Styles */
+.license-modal-content {
+	padding: 20px;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.license-modal-header {
+	text-align: center;
+	margin-bottom: 24px;
+	padding-bottom: 16px;
+	border-bottom: 2px solid var(--color-border);
+}
+
+.license-modal-header h3 {
+	margin: 0 0 8px 0;
+	font-size: 20px;
+	font-weight: 600;
+	color: var(--color-main-text);
+}
+
+.license-version {
+	margin: 0;
+	font-size: 14px;
+	color: var(--color-text-maxcontrast);
+	font-weight: 500;
+}
+
+.license-modal-body {
+	margin-bottom: 24px;
+}
+
+.license-section {
+	margin-bottom: 16px;
+	padding: 16px;
+	background-color: var(--color-background-hover);
+	border-radius: 8px;
+	border-left: 3px solid var(--color-primary-element);
+}
+
+.license-section p {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.6;
+	color: var(--color-main-text);
+}
+
+.license-section strong {
+	font-weight: 600;
+	color: var(--color-primary-element);
+}
+
+.license-link-section {
+	text-align: center;
+	margin-top: 24px;
+	padding-top: 16px;
+	border-top: 1px solid var(--color-border);
+}
+
+.license-external-link {
+	display: inline-block;
+	padding: 10px 20px;
+	background-color: var(--color-primary-element);
+	color: var(--color-primary-element-text) !important;
+	text-decoration: none;
+	border-radius: 6px;
+	font-weight: 500;
+	font-size: 14px;
+	transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.license-external-link:hover {
+	background-color: var(--color-primary-element-hover);
+	transform: translateY(-1px);
+	text-decoration: none;
+}
+
+.license-modal-footer {
+	display: flex;
+	justify-content: center;
+	padding-top: 16px;
+	border-top: 1px solid var(--color-border);
+}
+
+.license-link {
+	display: inline;
+	padding: 0 4px;
+	background: none;
+	border: none;
+	color: var(--color-primary-element);
+	font-weight: 600;
+	font-size: inherit;
+	text-decoration: none;
+	cursor: pointer;
+	transition: color 0.2s ease;
+}
+
+.license-link:hover {
+	color: var(--color-primary-element-hover);
+	background: none;
+	text-decoration: underline;
+}
+
+/* OSMD link style */
+.osmd-link {
+	color: var(--color-primary-element);
+	font-weight: 600;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.osmd-link:hover {
+	color: var(--color-primary-element-hover);
+	text-decoration: underline;
+}
 </style>
