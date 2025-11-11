@@ -23,7 +23,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
 
     - name: Setup PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v2
@@ -33,7 +32,9 @@ jobs:
         coverage: none
 
     - name: Install Node dependencies
-      run: npm install --legacy-peer-deps
+      run: |
+        rm -f package-lock.json
+        npm install --legacy-peer-deps
 
     - name: Lint JavaScript
       run: npm run lint || echo "Linting not configured, skipping"
