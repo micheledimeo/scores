@@ -1,5 +1,10 @@
 # Scores for Nextcloud
 
+![App Name](https://img.shields.io/badge/App%20Name-Scores-blue?style=for-the-badge)
+![App ID](https://img.shields.io/badge/App%20ID-scores-lightgrey?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.9.6-green?style=flat-square)
+![License](https://img.shields.io/badge/license-AGPL--3.0-orange?style=flat-square)
+
 Display, play, and manage MusicXML files directly in Nextcloud using OpenSheetMusicDisplay.
 
 ## Features
@@ -118,7 +123,7 @@ Administrators can configure the default scores folder paths:
 ## Project Structure
 
 ```
-mxmlscores/
+scores/
 ├── appinfo/
 │   ├── info.xml          # App metadata
 │   └── routes.php        # App routes
