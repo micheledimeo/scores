@@ -2,7 +2,7 @@
 
 ![App Name](https://img.shields.io/badge/App%20Name-Scores-blue?style=for-the-badge)
 ![App ID](https://img.shields.io/badge/App%20ID-scores-lightgrey?style=flat-square)
-![Version](https://img.shields.io/badge/version-0.9.7-green?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.9.6-green?style=flat-square)
 ![License](https://img.shields.io/badge/license-AGPL--3.0-orange?style=flat-square)
 
 Display, play, and manage MusicXML files directly in Nextcloud using OpenSheetMusicDisplay.
@@ -40,13 +40,6 @@ Display, play, and manage MusicXML files directly in Nextcloud using OpenSheetMu
 - **Browsers**: Chrome, Firefox, Safari (including iOS/iPadOS 17.0+)
 
 ## Recent Improvements
-
-### v0.9.7 - App Store & Testing (2025-11-12)
-- **Nextcloud App Store Preparation**: Certificate signing infrastructure ready
-- **Comprehensive Test Suite**: 23 end-to-end Playwright tests (100% passing)
-- **Code Quality**: Complete codebase analysis and feature documentation
-- **GitHub Actions**: CI/CD workflows for automated builds and releases
-- **Production Ready**: Deployment scripts and signing tools
 
 ### v0.9.6 - Score Folders & Configuration (2025-11-11)
 - **Critical Bug Fix**: Files in custom Score Folders now display correctly
@@ -193,29 +186,6 @@ scores/
 - **PHP 8.1+**: Backend API
 
 ## Version History
-
-### v0.9.7 (2025-11-12)
-- **Nextcloud App Store Submission**: Certificate signing infrastructure
-  - Generated CSR and submitted to nextcloud/app-certificate-requests
-  - App signing scripts with OpenSSL integration
-  - Complete submission documentation in docs/APPSTORE_SUBMISSION.md
-- **Comprehensive Test Suite**: 23 Playwright end-to-end tests
-  - 100% test coverage of core features
-  - Application loading, file browser, playback controls
-  - Tempo/volume controls, zoom, keyboard shortcuts
-  - Responsive design testing (mobile/tablet)
-- **Code Quality**: Complete codebase analysis
-  - Feature documentation with 20 identified features
-  - Tech stack analysis and documentation
-  - Code summary for automated testing
-- **Repository Cleanup**: Improved project organization
-  - App renamed from "mxmlscores" to "scores"
-  - Dependabot disabled to reduce branch clutter
-  - Line ending consistency fixes
-- **Production Infrastructure**: Enhanced deployment pipeline
-  - GitHub Actions workflows for CI/CD
-  - Automated build and release creation
-  - Production deployment scripts
 
 ### v0.9.6 (2025-11-11)
 - **Score Folders Configuration Fix**: Critical bug fix for folder scanning
