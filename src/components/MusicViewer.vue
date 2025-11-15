@@ -2134,13 +2134,13 @@ input[type="range"]:disabled {
 		max-height: none;
 	}
 
-	/* Row 1: Control group (play/pause/stop/loop/mixer) - full width */
+	/* Row 1: Control group + Progress section (inline) */
 	.control-group {
 		order: 1;
-		flex: 1 1 100%;
+		flex: 0 0 auto;
 		justify-content: flex-start;
 		margin: 0;
-		padding: 0;
+		padding-left: 40px;
 		gap: 6px;
 	}
 
@@ -2151,15 +2151,15 @@ input[type="range"]:disabled {
 		min-height: 44px;
 	}
 
-	/* Row 2: Progress section - full width */
+	/* Row 1: Progress section - after control group */
 	.progress-section {
 		order: 2;
-		flex: 1 1 100%;
+		flex: 1 1 auto;
 		max-width: none;
 		margin: 0;
 	}
 
-	/* Row 3: Tempo/Volume group - inline */
+	/* Row 2: Tempo/Volume group - inline */
 	.tempo-volume-group {
 		order: 3;
 		flex: 1 1 auto;
@@ -2174,7 +2174,7 @@ input[type="range"]:disabled {
 		justify-content: center;
 	}
 
-	/* Row 3: Zoom controls - inline with tempo/volume */
+	/* Row 2: Zoom controls - inline with tempo/volume */
 	.zoom-controls {
 		order: 4;
 		flex: 0 0 auto;
