@@ -116,7 +116,7 @@
 									<li><kbd>Space</kbd> {{ t('scores', 'Play / Pause playback') }}</li>
 									<li><kbd>F</kbd> {{ t('scores', 'Return to start') }}</li>
 									<li><kbd>←</kbd> <kbd>→</kbd> {{ t('scores', 'Navigate between measures') }}</li>
-									<li><kbd>+</kbd> <kbd>-</kbd> or <kbd>↑</kbd> <kbd>↓</kbd> {{ t('scores', 'Zoom in / out') }}</li>
+									<li><kbd>↑</kbd> <kbd>↓</kbd> {{ t('scores', 'Zoom in / out') }}</li>
 									<li>{{ t('scores', 'Adjust tempo and volume in the playback bar') }}</li>
 								</ul>
 							</div>
