@@ -330,6 +330,7 @@ export default {
 		const isLoaded = ref(false)
 		const isPlaying = ref(false)
 		const isInitializing = ref(false)
+		const isCleaningUp = ref(false)
 		const tempo = ref(120)
 		const volume = ref(80)
 		// Set default zoom based on screen size: 0.7 for mobile, 1.0 for desktop
@@ -400,6 +401,7 @@ export default {
 		const loadScore = async () => {
 			try {
 				loading.value = true
+				isCleaningUp.value = false // Reset cleanup flag
 				console.log('MusicViewer mounted')
 
 				// Wait for the DOM to update and remove loading spinner
@@ -491,7 +493,7 @@ export default {
 
 		// Initialize playback manager
 		const initializePlayback = async () => {
-			if (!osmd.value || playbackManager.value) {
+			if (!osmd.value || playbackManager.value || isCleaningUp.value) {
 				return
 			}
 
@@ -500,7 +502,7 @@ export default {
 				console.log('Initializing playback...')
 
 				// 1. Create AudioContext FIRST
-				if (!audioContext.value) {
+				if (!audioContext.value && !isCleaningUp.value) {
 					audioContext.value = new (window.AudioContext || window.webkitAudioContext)()
 					addDebugInfo(`AudioContext created, state: ${audioContext.value.state}`)
 
@@ -605,19 +607,27 @@ export default {
 				// 6. CRITICAL: Now reroute all loaded instruments through master gain
 				// Wait a bit to ensure instruments are fully loaded
 				await new Promise(resolve => setTimeout(resolve, 500))
-				
+
+				// Check if cleanup started during the wait
+				if (isCleaningUp.value) {
+					console.log('Cleanup started, aborting playback initialization')
+					return
+				}
+
 				console.log('Attempting to reroute instruments through master gain...')
 				let reroutedCount = 0
-				
+
 				// The soundfontPlayer has a 'players' Map with the actual instrument objects
-				if (soundfontPlayer.players && soundfontPlayer.players instanceof Map) {
+				if (soundfontPlayer.players && soundfontPlayer.players instanceof Map && !isCleaningUp.value) {
 					console.log('Found players Map with', soundfontPlayer.players.size, 'instruments')
 					
 					soundfontPlayer.players.forEach((player, instrumentName) => {
+						if (isCleaningUp.value) return
+
 						console.log(`Inspecting player "${instrumentName}":`, player)
-						
+
 						// The player object should have an 'out' GainNode that we need to reroute
-						if (player && player.out) {
+						if (player && player.out && !isCleaningUp.value) {
 							try {
 								// Disconnect from default destination
 								player.out.disconnect()
@@ -628,7 +638,7 @@ export default {
 							} catch (e) {
 								console.warn(`✗ Could not reroute player "${instrumentName}":`, e)
 							}
-						} else {
+						} else if (!isCleaningUp.value) {
 							console.warn(`Player "${instrumentName}" has no 'out' property:`, Object.keys(player || {}))
 						}
 					})
@@ -1362,16 +1372,29 @@ export default {
 		// Cleanup
 		const cleanup = () => {
 			console.log('Cleaning up MusicViewer...')
+			isCleaningUp.value = true
 			stopProgressTracking()
+
+			// Stop playback first
 			if (playbackManager.value) {
 				try {
 					playbackManager.value.stop()
+					playbackManager.value = null
 				} catch (e) {
 					// Ignore errors during cleanup
 				}
 			}
-			if (audioContext.value) {
-				audioContext.value.close()
+
+			// Close AudioContext after a small delay to allow pending operations
+			if (audioContext.value && audioContext.value.state !== 'closed') {
+				setTimeout(() => {
+					if (audioContext.value && audioContext.value.state !== 'closed') {
+						audioContext.value.close().catch(() => {
+							// Ignore close errors
+						})
+						audioContext.value = null
+					}
+				}, 100)
 			}
 		}
 
