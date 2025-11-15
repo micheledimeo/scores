@@ -874,7 +874,7 @@ export default {
 /* Counter overlay - positioned outside search box, aligned with folder counters */
 .search-counter-overlay {
 	position: absolute;
-	right: 4px; /* Aligned with folder counter position */
+	right: 0px; /* Aligned with folder counter position */
 	top: 50%;
 	transform: translateY(-50%);
 	pointer-events: none;
@@ -883,7 +883,7 @@ export default {
 
 /* When close button is shown, no adjustment needed as counter is outside */
 .search-box-wrapper:has(.app-navigation-search :deep(.input-field__clear-button)) .search-counter-overlay {
-	right: 4px; /* Keep aligned with folder counters */
+	right: 0px; /* Keep aligned with folder counters */
 }
 
 /* Folder icons - keep transparent (default Nextcloud style) */
