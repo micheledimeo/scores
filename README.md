@@ -202,6 +202,30 @@ scores/
 
 ## Version History
 
+### v0.9.8 (2025-11-15)
+- **Mobile Optimization**: Complete mobile UX overhaul
+  - Welcome screen aligns to top on mobile with proper flexbox layout
+  - Removed transform hacks in favor of align-items: flex-start
+  - Significantly reduced top spacing for better space utilization
+- **Touch-Friendly Playback Controls**: Accessibility improvements
+  - All playback buttons meet minimum 44x44px touch target size
+  - Compact mobile layout: controls and progress on first row
+  - Tempo/volume controls on second row with 60px number inputs
+  - Hidden tempo/volume sliders on mobile for cleaner interface
+- **Improved Navigation**: Streamlined mobile sidebar
+  - Removed folder score counters for cleaner look
+  - Progress bar stays on first row with proper flex layout
+  - Reversed mixer channel button order for better organization
+- **Enhanced Quick Tips**: Better keyboard shortcuts documentation
+  - Added F key (return to start) to Quick Tips
+  - Added arrow keys for zoom (removed redundant +/- keys)
+  - Moved "Use Files app" message into Quick Tips section
+  - Removed separate "Upload & Share" section
+- **Technical Improvements**: Better code quality
+  - AudioContext cleanup improved to reduce console warnings
+  - Flexbox-based responsive layout on mobile
+  - Enhanced mobile media queries for better behavior
+
 ### v0.9.7 (2025-11-12)
 - **Nextcloud App Store Submission**: Certificate signing infrastructure
   - Generated CSR and submitted to nextcloud/app-certificate-requests
