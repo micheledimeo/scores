@@ -39,48 +39,6 @@ Display, play, and manage MusicXML files directly in Nextcloud using OpenSheetMu
 - **npm**: 10.x or later
 - **Browsers**: Chrome, Firefox, Safari (including iOS/iPadOS 17.0+)
 
-## Recent Improvements
-
-### v0.9.8 - Mobile Optimization (2025-11-15)
-- **Mobile UX**: Welcome screen aligns to top with proper flexbox layout
-- **Touch-Friendly Controls**: Playback buttons meet 44x44px accessibility standards
-- **Compact Mobile Layout**: Optimized playback bar with progress on first row
-- **Simplified UI**: Removed folder counters and streamlined Quick Tips
-- **Better Spacing**: Reduced top spacing on mobile for improved space utilization
-- **Mixer Improvements**: Reversed channel button order for better organization
-
-### v0.9.7 - App Store & Testing (2025-11-12)
-- **Nextcloud App Store Preparation**: Certificate signing infrastructure ready
-- **Comprehensive Test Suite**: 23 end-to-end Playwright tests (100% passing)
-- **Code Quality**: Complete codebase analysis and feature documentation
-- **GitHub Actions**: CI/CD workflows for automated builds and releases
-- **Production Ready**: Deployment scripts and signing tools
-
-### v0.9.6 - Score Folders & Configuration (2025-11-11)
-- **Critical Bug Fix**: Files in custom Score Folders now display correctly
-- **Streamlined UI**: Direct folder addition from Browse dialog
-- **Smart Save Button**: Only enabled when changes are detected
-- **JSON Configuration**: Modern configuration storage with CSV fallback
-- **Distribution Tools**: Complete packaging and backup scripts
-
-### v0.9.5 - iOS Audio Support (2025-11-10)
-- **iOS/iPadOS Playback**: Full audio support for iOS Safari 17.0+
-- **Audio Lifecycle**: Background/foreground transition handling
-- **Testing Suite**: TestSprite-based iOS audio diagnostic tests
-- **Search Counter**: Aligned with folder counter styling
-
-### v0.9.4 - UI/UX Polish (2025-11-09)
-- **Smart File Truncation**: Left truncation (max 30 chars) to show instrument names
-- **File Count Badges**: Folders display total file count including subfolders
-- **Material Design Icons**: Folder icons with proper spacing
-- **Welcome Screen**: Quick Tips for keyboard shortcuts
-- **CSS Improvements**: Fixed folder expansion and counter positioning
-
-### v0.9.3 - Internationalization (2025-11-09)
-- **Full i18n Support**: Translatable strings for all settings
-- **Folder Browser**: Interactive navigation for path selection
-- **Security**: Path traversal prevention
-
 ## Installation
 
 ### Prerequisites
