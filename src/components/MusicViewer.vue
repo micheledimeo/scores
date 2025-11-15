@@ -2134,7 +2134,7 @@ input[type="range"]:disabled {
 		max-height: none;
 	}
 
-	/* Row 1: Control group + Progress section (inline) */
+	/* Row 1: Control group + Progress section (inline) - always on same row */
 	.control-group {
 		order: 1;
 		flex: 0 0 auto;
@@ -2142,6 +2142,8 @@ input[type="range"]:disabled {
 		margin: 0;
 		padding-left: 40px;
 		gap: 6px;
+		flex-shrink: 1;
+		min-width: 0;
 	}
 
 	/* Ensure buttons are tappable on mobile (min 44x44px) */
@@ -2151,11 +2153,12 @@ input[type="range"]:disabled {
 		min-height: 44px;
 	}
 
-	/* Row 1: Progress section - after control group */
+	/* Row 1: Progress section - always on same row as control group */
 	.progress-section {
 		order: 2;
-		flex: 1 1 auto;
+		flex: 1 1 0;
 		max-width: none;
+		min-width: 100px;
 		margin: 0;
 	}
 
